@@ -70,11 +70,11 @@ class FirstPage extends StatelessWidget {
             const Padding(padding: EdgeInsets.only(top: 40)),
             SizedBox(
               height: 90,
-              width: 200,
+              width: 300,
               child: ElevatedButton(
                 onPressed: () {},
                 child: const Text(
-                  'Login',
+                  'トレーニングを始める',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
