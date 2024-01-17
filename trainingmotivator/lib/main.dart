@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trainingmotivator/View/first_page.dart';
+import 'color_schemes.g.dart';
 
 void main() {
   runApp(const Start());
@@ -9,13 +11,10 @@ class Start extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Training Motivator',
-      home: Scaffold(
-        body: Center(
-          child: Text('Training Motivator'),
-        ),
-      ),
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      home: const FirstPage(),
     );
   }
 }
