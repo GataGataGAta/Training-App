@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:trainingmotivator/View/main_page.dart';
 import 'package:trainingmotivator/View/signup_page.dart';
+import 'utils.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({Key? key}) : super(key: key);
@@ -48,11 +49,11 @@ class _FirstPageState extends State<FirstPage> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'Enter User ID',
+                            labelText: 'メールアドレスを入力してください',
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
+                              return 'メールアドレスを確認してください';
                             }
                             return null;
                           },
@@ -67,12 +68,12 @@ class _FirstPageState extends State<FirstPage> {
                         controller: _passwordController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Enter Password',
+                          labelText: 'パスワードを入力してください',
                         ),
                         obscureText: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
+                            return 'パスワードを確認してください';
                           }
                           return null;
                         },
@@ -151,6 +152,10 @@ class _FirstPageState extends State<FirstPage> {
       if (response.user != null) {
         Navigator.of(localContext).pop();
       }
+    } on AuthException catch (error) {
+      showErrorSnackBar(context, message: error.message);
+    } on Exception catch (e) {
+      showErrorSnackBar(context, message: e.toString());
     } finally {
       setState(() {
         isLoading = false;

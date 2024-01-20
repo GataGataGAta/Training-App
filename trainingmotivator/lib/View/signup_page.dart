@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:trainingmotivator/View/utils.dart';
 import 'first_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const Padding(
                 padding: EdgeInsets.only(top: 80),
               ),
-              const Column(children: [
+              const Column(children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(left: 60, right: 10),
                   child: Text(
@@ -62,10 +63,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 12),
                 child: TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _userNameController,
+                  keyboardType: TextInputType.name,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'ユーザー名を入力してください',
@@ -79,14 +80,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 12),
                 child: TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _passwordController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'パスワードを入力してください',
                   ),
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'パスワードを入力してください';
@@ -98,15 +99,18 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
                 child: TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _confirmPasswordController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'パスワードを確認してください',
                   ),
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'パスワードを確認してください';
+                    }
+                    if (value != _passwordController.text) {
+                      return 'Passwords do not match';
                     }
                     return null;
                   },
@@ -177,6 +181,10 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       if (!mounted) return;
       Navigator.of(context).pop();
+    } on AuthException catch (error) {
+      showErrorSnackBar(context, message: error.message);
+    } on Exception catch (error) {
+      showErrorSnackBar(context, message: error.toString());
     } finally {
       setState(() {
         isLoading = false;
